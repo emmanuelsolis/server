@@ -1,8 +1,8 @@
 const router = require("express").Router();
 //importar el controlador
-const {getLoggedUser, editProfile}  = require("../controllers/user.controller");
+const {getLoggedUser, editProfile, deleteAccount, getUserById}  = require("../controllers/user.controller");
 //importar middlewares
-const {verifyToken} = require("../middleware")
+const {verifyToken, checkRole} = require("../middleware")
 //CRUD
 
 //Read
@@ -12,11 +12,15 @@ router.get("/my-profile", verifyToken, getLoggedUser);
 router.patch("/edit-profile", verifyToken, editProfile);
 
 //Delete
-//router.delete("/delete-user",)
+router.delete("/delete-user", verifyToken, deleteAccount);
 
 
 //Read - Otro Usuario
-// router.get("/:id/profile", );
+router.get("/:id/profile",verifyToken,getUserById)
+
+
+//Read  all users (ADMIN STAFF)
+router.get("/admin/users", verifyToken, checkRole(["Admin"]))
 
 
 
