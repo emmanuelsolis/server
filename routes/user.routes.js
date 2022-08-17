@@ -1,6 +1,6 @@
 const router = require("express").Router();
 //importar el controlador
-const {getLoggedUser, editProfile, deleteAccount, getUserById}  = require("../controllers/user.controller");
+const {getLoggedUser, editProfile,onlyAdminRead, deleteAccount, getUserById}  = require("../controllers/user.controller");
 //importar middlewares
 const {verifyToken, checkRole} = require("../middleware")
 //CRUD
@@ -20,7 +20,8 @@ router.get("/:id/profile",verifyToken,getUserById)
 
 
 //Read  all users (ADMIN STAFF)
-router.get("/admin/users", verifyToken, checkRole(["Admin"]))
+//router.get("/admin/users")
+router.get("/admin/users", verifyToken, checkRole(["Admin"]), onlyAdminRead)
 
 
 

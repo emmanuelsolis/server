@@ -41,7 +41,7 @@ exports.getUserById = (req, res, next) => {
 
     User.findById(id)
     .then(user => {
-        // const newUser = clearRes(user.toObject())
+        const newUser = clearRes(user.toObject())
         res.status(200).json({ user: newUser })
     })
     .catch(error => {
@@ -62,7 +62,7 @@ exports.getUserById = (req, res, next) => {
 //Esta es para el Admin
 exports.onlyAdminRead = (req, res, next) => {
 
-    User.find({ role: {$ne:"Admin"}})
+    User.find({ role: {$ne:"Admin"}}, {password:0, __v:0, createdAt:0, updatedAt:0}) 
     .then(users => {
         res.status(200).json({ users })
     })
@@ -72,9 +72,7 @@ exports.onlyAdminRead = (req, res, next) => {
           }
           if (error.code === 11000) {
             return res.status(400).json({
-              errorMessage:
-                "El correo ya esta registrado, por favor intenta con otro correo"
-                
+              errorMessage:"Hubo un error"
             });
           }
           return res.status(500).json({ errorMessage: error.message });
@@ -87,6 +85,8 @@ exports.deleteAccount = (req, res, next) => {
     const {_id} = req.user
     User.findByIdAndRemove(_id)
     .then(user => {
+        res.clearCookie("headload")
+        res.clearCookie("signature")
         res.status(200).json({successMessage: "Usuario borrado"})
     })
     .catch(error => {
