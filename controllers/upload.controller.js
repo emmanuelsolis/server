@@ -44,11 +44,11 @@ exports.uploadProcess = async (req,res,next)=>{
 }
 
 exports.deleteImage = (req, res, next) => {
-    const {name} = req.body
-    cloudinary.v2.uploader.destroy(`tinder-perritos/${name}`, {error, result}) => {
+    const {name} = req.params           //folder/nameImg.ext
+    cloudinary.v2.uploader.destroy(`tinder-perritos/${name}`, (error, result) => {
         if(error) {
-            return res.status(400).json({errorMessage: "Error occurred while deleting image."})
+            return res.status(400).json({errorMessage: "No se pudo eliminar", error})
         }
-        res.status(200).json({successMessage: "Image deleted successfully",${name}})
-    }
+        res.status(200).json({successMessage: `Se elimino el archivo ${name}`})
+    })
 }

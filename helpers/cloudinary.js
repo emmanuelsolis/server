@@ -1,7 +1,6 @@
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer')
-const { cloudinaryStorage } = require("multer-storage-cloudinary")
-
+const { CloudinaryStorage } = require("multer-storage-cloudinary")
 
 
 //setup cloudinary storage
@@ -20,14 +19,14 @@ const storage = new CloudinaryStorage({
             folder: "tinder-perritos",
             allowedFormats:["png", "jpg", "jpeg", "gif", "svg", "webp", "pdf"],
             fileFilter:(req, file, cb) => {
-                if(!file.originalname.match(/\.(svg | gif | docx)$/)){
+                if(!file.originalname.match(/\.(svg | gif | doc)$/)){
                 return cb(new Error("Archivo no valido"))
                 }
-                cb(null, originalname)
+                cb(null, file.originalname)
             },
             public_id: `app-${file.originalname}`
-            }
-            }   
+        }
+    }   
 
 })
 const uploadCloud = multer({storage})
