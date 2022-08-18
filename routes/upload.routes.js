@@ -13,7 +13,7 @@ router.post ("/uploads",verifyToken, uploadCloud.array("images", 3), uploadProce
 router.post("/single",verifyToken, uploadCloud.single("image"), uploadProcess)
 
 //
-router.delete("delete-image/:name", verifyToken, deleteImage)
+router.delete("/delete-image/:name", verifyToken, deleteImage)
 
 
 
