@@ -7,7 +7,7 @@ exports.uploadProcess = async (req,res,next)=>{
             cloudinary.uploader.upload(file,(result)=>{
                 resolve({
                   url: result.url,
-                  id: result.public_id  
+                  id: result.original_filename
                 },{
                     resource_type:"auto",
                     folder
