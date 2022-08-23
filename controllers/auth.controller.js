@@ -17,11 +17,19 @@ exports.signupProcess = (req, res, next) => {
     //frontend al back en el body
  //vamos a sacar el role
  const {role, email, password, confirmPassword,...resUser} = req.body;
-    //validar que los campos no esten vacios
-    if(!email.length || !password.length || !confirmPassword.length)return res.status(400).json({errorMessage: "No debes mandar campos vacios!"});
-    //validar que las contraseñas sean iguales
-    if(password !== confirmPassword) return res.status(400).json({errorMessage: "Las contraseñas no coinciden!"});
-    //validar si existe email 1.1
+ if (!email.length || !password.length || !confirmPassword.length) return res.status(400).json({ errorMessage: "No debes mandar campos vacios!" });
+ if (password != confirmPassword) return res.status(400).json({ errorMessage: "La contraseñas no son iguales!" });
+ const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+ if (!regex.test(password)) return res.status(400).json({errorMessage:"La contraseña neceista tener almenos una minuscula, una mayuscula y un numero"})
+
+ const found = await User.findOne({ email })
+ if(found) return res.status(400).json({ errorMessage: "Ese correo ya fue tomado!" });
+
+    // //validar que los campos no esten vacios
+    // if(!email.length || !password.length || !confirmPassword.length)return res.status(400).json({errorMessage: "No debes mandar campos vacios!"});
+    // //validar que las contraseñas sean iguales
+    // if(password !== confirmPassword) return res.status(400).json({errorMessage: "Las contraseñas no coinciden!"});
+    // //validar si existe email 1.1
         //{email: email} > {email:dylan.etc...}
     User.findOne({email})
     .then(foundedUser => {
@@ -101,6 +109,8 @@ exports.loginProccess = (req, res, next) => {
         .json({ errorMessage: "No debes mandar campos vacios!" });
     }
     //validar password > 8 caracteres el regex
+    const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+        if (!regex.test(password)) return res.status(400).json({errorMessage:"La contraseña neceista tener almenos una minuscula, una mayuscula y un numero"})
     User.findOne({email})
     .then(foundedUser => {
         //ver si el correo existe
