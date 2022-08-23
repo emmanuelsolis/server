@@ -22,8 +22,7 @@ exports.signupProcess = (req, res, next) => {
  const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
  if (!regex.test(password)) return res.status(400).json({errorMessage:"La contraseña neceista tener almenos una minuscula, una mayuscula y un numero"})
 
- const found = await User.findOne({ email })
- if(found) return res.status(400).json({ errorMessage: "Ese correo ya fue tomado!" });
+
 
     // //validar que los campos no esten vacios
     // if(!email.length || !password.length || !confirmPassword.length)return res.status(400).json({errorMessage: "No debes mandar campos vacios!"});
