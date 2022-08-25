@@ -8,9 +8,9 @@ const {verifyToken} = require("../middleware")
 
 
 //multiples             //req.files
-router.post ("/uploads",verifyToken, uploadCloud.array("images", 3), uploadProcess)
+router.post ("/uploads", uploadCloud.array("images", 3), uploadProcess)
 //una sola              //req.file
-router.post("/single",verifyToken, uploadCloud.single("image"), uploadProcess)
+router.post("/single", uploadCloud.single("image"), uploadProcess)
 
 //
 router.delete("/delete-image/:name", verifyToken, deleteImage)

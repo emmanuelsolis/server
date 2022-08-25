@@ -108,8 +108,8 @@ exports.loginProccess = (req, res, next) => {
         .json({ errorMessage: "No debes mandar campos vacios!" });
     }
     //validar password > 8 caracteres el regex
-    const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
-        if (!regex.test(password)) return res.status(400).json({errorMessage:"La contraseña neceista tener almenos una minuscula, una mayuscula y un numero"})
+    // const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+    //     if (!regex.test(password)) return res.status(400).json({errorMessage:"La contraseña neceista tener almenos una minuscula, una mayuscula y un numero"})
     User.findOne({email})
     .then(foundedUser => {
         //ver si el correo existe
